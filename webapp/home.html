@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Accueil</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <link rel="stylesheet" href="stylesheet.css" />
+    </head>
+    <body>
+
+        <section id="mediums-list">
+
+        </section> 
+        <script type="text/javascript">
+            function showMediums() {
+                $.ajax({
+                    url: './Servlet',
+                    method: 'GET',
+                    data: {
+                        todo: 'getmediums'
+                    },
+                    dataType: 'json'
+                })
+                        .done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                            var section = $('#mediums-list');
+                            $.each(response.mediums,
+                                    function (index, element) {
+                                        var box = $('<div>', {
+                                            "class" : "medium-container"
+                                        });
+                                        box.append($('<span>', {
+                                            "class" : "medium-name",
+                                            text : element.nom,
+                                        }));
+                                        box.append($('<span>', {
+                                            "class" : "medium-description",
+                                            text : element.description,
+                                        }));
+                                        section.append(box);
+                                    });
+                        })
+                        .fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                            alert("Erreur lors de l'appel AJAX");
+                        })
+                        .always(function () { // Fonction toujours appelée
+
+                        });
+            }
+
+            $(document).ready(function () {
+                showMediums();
+            });
+        </script>
+    </body>
+</html>

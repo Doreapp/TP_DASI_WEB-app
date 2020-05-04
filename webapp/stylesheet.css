@@ -1,0 +1,46 @@
+/*
+Créé par Antoine MANDIN
+4 mai 2020
+*/
+
+
+/*============================================================== Tag Name*/
+
+
+/* ---------------------------------------------------------------- Html */
+
+html {
+    font-family: Calibri, Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+}
+
+
+/* ---------------------------------------------------------------- Body */
+
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #7b1fa2;
+    color: white;
+}
+
+/* ========================================================== Class Name */
+
+.medium-container {
+    background-color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    width: 70%;
+    margin-bottom: 20px;
+    color : black;
+}
+
+.medium-name {
+    font-size: 1em;
+    font-weight: bold;
+}
+
