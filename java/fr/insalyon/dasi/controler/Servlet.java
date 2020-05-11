@@ -155,6 +155,20 @@ public class Servlet extends HttpServlet {
                     session.invalidate();
                 }
                 break;
+                
+                case "rechercherConversationPourEmploye":
+                session = request.getSession(false);
+                if (session == null) { //pas de session créée au préalable
+                    response.sendError(HttpServletResponse.SC_FORBIDDEN);
+                    break;
+                }
+                user = (Utilisateur) session.getAttribute("user");
+                if (user == null || !(user instanceof Employe)) {
+                    response.sendError(HttpServletResponse.SC_FORBIDDEN);
+                    break;
+                }
+                jsonSerialisation.serialiseConversationPourEmploye(service.rechercherConversationPourEmploye((Employe) user), response);
+                break;
 
             case "getConsultationData":
                 String param = request.getParameter("id");
