@@ -17,6 +17,10 @@ and open the template in the editor.
             
         </section>
         <script type="text/javascript">
+            function demande(id){
+                document.location.href = "./consult.html?idConv="+id;
+            }
+            
             $(document).ready(function () {
                 $.ajax({
                     url: './Servlet',
@@ -35,12 +39,21 @@ and open the template in the editor.
                                         });
                                         box.append($('<span>', {
                                             "class" : "txt",
-                                            text : "Consultation requise pour "+element.prenomClient+" "+element.nomClient,
+                                            text : "Consultation requise pour "+element.prenomClient+" "+element.nomClient
                                         }));
+                                        box.append($('<br>'));
                                         box.append($('<span>', {
                                             "class" : "medium",
-                                            text : "Médium à incarner : "+element.medium,
+                                            text : "Médium à incarner : "+element.medium
                                         }));
+                                        box.append($('<br>'));
+                                        box.append($('<button>', {
+                                            "class" : "button",
+                                            //"onclick" : function(){demande(element.id);},
+                                            "text" : "Joindre"
+                                        })
+                                                .on("click",function(){demande(element.id);})
+                                        );
                                         section.append(box);
                                     });
                         })
