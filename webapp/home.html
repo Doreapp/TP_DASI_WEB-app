@@ -38,9 +38,10 @@ and open the template in the editor.
                                             "class" : "medium-name",
                                             text : element.nom,
                                         }));
+                                        box.append($('<br/>'));
                                         box.append($('<span>', {
                                             "class" : "medium-description",
-                                            text : element.description,
+                                            text : element.presentation,
                                         }));
                                         section.append(box);
                                     });
