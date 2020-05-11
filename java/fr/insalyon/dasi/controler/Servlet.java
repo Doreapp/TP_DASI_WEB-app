@@ -74,6 +74,7 @@ public class Servlet extends HttpServlet {
             case "getmediums": //Acceuil : get medium list
                 jsonSerialisation.serialise(service.getMediums(), response);
                 break;
+
             case "authentificate": //Connexion : connect (mail, password)
                 String mail = request.getParameter("mail");
                 String password = request.getParameter("password");
@@ -90,6 +91,7 @@ public class Servlet extends HttpServlet {
                     jsonSerialisation.result(true, response);
                 }
                 break;
+
             case "getClientData":
                 HttpSession session = request.getSession(false);
                 if (session == null) { //pas de session créée au préalable
@@ -103,6 +105,7 @@ public class Servlet extends HttpServlet {
                 }
                 jsonSerialisation.serialiseClientData((Client) user, response);
                 break;
+
             case "subscribe":
                 String name = request.getParameter("nom");
                 String firstname = request.getParameter("prenom");
@@ -131,6 +134,7 @@ public class Servlet extends HttpServlet {
                 }
 
                 break;
+
             case "getHistoric":
                 session = request.getSession(false);
                 if (session == null) { //pas de session créée au préalable
@@ -144,13 +148,15 @@ public class Servlet extends HttpServlet {
                 }
                 jsonSerialisation.serialiseHistoric(service.historiqueClient((Client) user), response);
                 break;
+
             case "disconnect":
                 session = request.getSession(false);
                 if (session != null) {
                     session.invalidate();
                 }
                 break;
-            case "rechercherConversationPourEmploye":
+                
+                case "rechercherConversationPourEmploye":
                 session = request.getSession(false);
                 if (session == null) { //pas de session créée au préalable
                     response.sendError(HttpServletResponse.SC_FORBIDDEN);
@@ -163,6 +169,45 @@ public class Servlet extends HttpServlet {
                 }
                 jsonSerialisation.serialiseConversationPourEmploye(service.rechercherConversationPourEmploye((Employe) user), response);
                 break;
+
+            case "getConsultationData":
+                String param = request.getParameter("id");
+                if (param == null) {
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                    break;
+                }
+                long id;
+                try {
+                    id = Long.parseLong(param);
+                } catch (NumberFormatException e) {
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                    break;
+                }
+                Conversation conv = service.getConversationParId(id);
+                if (conv == null) {
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                    break;
+                }
+                jsonSerialisation.serialiseConversation(conv, response);
+                break;
+
+            case "getClientHistory":
+                param = request.getParameter("id");
+                if (param == null) {
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                    break;
+                }
+                id = 0;
+                try {
+                    id = Long.parseLong(param);
+                } catch (NumberFormatException e) {
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                    break;
+                }
+                
+                jsonSerialisation.serialiseHistoric(service.historiqueClient(id), response);
+                break;
+
             default:
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
