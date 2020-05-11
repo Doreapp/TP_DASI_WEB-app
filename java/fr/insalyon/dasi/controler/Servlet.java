@@ -7,18 +7,16 @@ package fr.insalyon.dasi.controler;
  */
 import fr.insalyon.dasi.view.JsonSerialisation;
 import fr.insalyon.dasi.dao.JpaUtil;
-import fr.insalyon.dasi.metier.modele.Utilisateur;
-import fr.insalyon.dasi.metier.modele.Client;
+import fr.insalyon.dasi.metier.modele.*;
 import fr.insalyon.dasi.metier.service.Service;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.text.SimpleDateFormat;
+import java.text.SimpleDateFormat;	
 import java.util.Date;
 
 /**
@@ -52,33 +50,60 @@ public class Servlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("todo");
+
         if (action == null) {
             return;
         }
+
+        /*
+        Nom de requete :
+            * getmediums.
+                Pas de paramètre
+            * authentificate.
+                "mail" --> email entrée
+                "password" --> mot de passe
+            * getClientData
         
+        Session :
+            
+        
+         */
         Service service = new Service();
         JsonSerialisation jsonSerialisation = new JsonSerialisation();
         switch (action) {
-            case "getmediums":
+            case "getmediums": //Acceuil : get medium list
                 jsonSerialisation.serialise(service.getMediums(), response);
                 break;
-            case "authentificate":
+            case "authentificate": //Connexion : connect (mail, password)
                 String mail = request.getParameter("mail");
                 String password = request.getParameter("password");
-                if(mail == null || password == null){
+                if (mail == null || password == null) {
                     response.sendError(HttpServletResponse.SC_BAD_REQUEST);
                     break;
                 }
                 Utilisateur user = service.authentifierUtilisateur(mail, password);
-                if(user == null){
+                if (user == null) {
                     jsonSerialisation.result(false, response);
                 } else {
                     HttpSession session = request.getSession(true);
-                    session.setAttribute("user",user);
+                    session.setAttribute("user", user);
                     jsonSerialisation.result(true, response);
                 }
                 break;
-            case "subscribe":
+            case "getClientData":
+                HttpSession session = request.getSession(false);
+                if (session == null) { //pas de session créée au préalable
+                    response.sendError(HttpServletResponse.SC_FORBIDDEN);
+                    break;
+                }
+                user = (Utilisateur) session.getAttribute("user");
+                if (user == null || !(user instanceof Client)) {
+                    response.sendError(HttpServletResponse.SC_FORBIDDEN);
+                    break;
+                }
+                jsonSerialisation.serialiseClientData((Client) user, response);
+                break;
+                case "subscribe":
                 String name = request.getParameter("nom");
                 String firstname = request.getParameter("prenom");
                 String date = request.getParameter("date");
@@ -106,6 +131,13 @@ public class Servlet extends HttpServlet {
                 }
                 
                 break;
+            case "disconnect":
+                session = request.getSession(false);
+                if(session != null){
+                    session.invalidate();
+                }
+                break;
+                
             default:
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }

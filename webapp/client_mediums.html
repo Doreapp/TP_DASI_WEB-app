@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Accueil</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <link rel="stylesheet" href="stylesheet.css" />
+        <script type="text/javascript">
+            function loadData() {
+                $.ajax({
+                    url: './Servlet',
+                    method: 'GET',
+                    data: {
+                        todo: 'getClientData'
+                    },
+                    dataType: 'json'
+                })
+                        .done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                            $('#client-name').text(response.name);
+                            $('#client-firstname').text(response.firstname);
+                            $('#zodiaque-sign-name').text(response.zodiaque_sign);
+                            $('#chinese-sign-name').text(response.chinese_sign);
+                            $('#lucky-color-name').text(response.lucky_color);
+                            $('#totem-animal-name').text(response.totem_animal);
+                        })
+                        .fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                            alert("Erreur lors de l'appel AJAX");
+                        })
+                        .always(function () { // Fonction toujours appelée
+
+                        });
+            }
+
+            $(document).ready(function () {
+                loadData();
+            });
+        </script>
+    </head>
+    <body>
+        <section style="display:flex; justify-content: space-around; align-items: center; ">
+            <p id="connexion-id">
+                Nom : <strong id="client-name">NOMMM</strong>
+                <br/>
+                Prenom : <strong id="client-firstname">PR2NOOOMMM</strong> 
+            </p>
+            <h1>PREDICT'IF</h1>
+            <button>Disconnect</button>
+        </section>
+
+        <div id="navigation-bar">
+            <button class="navigation-button">Accueil</button>
+            <button class="navigation-button">Médiums</button>
+            <button class="navigation-button">Historique</button>
+        </div>
+
+        <div class="white-container" style="text-align: center">
+            <table>
+                <tr>
+                    <td>
+                        <img id="zodiaque-sign-img" width="60" height="60"/>
+                        <br/>
+                        Signe du zodiaque :
+                        <br />
+                        <strong id="zodiaque-sign-name">ZODIAQUE</strong>
+                       
+                    </td>
+                    <td>
+                        <img id="chinese-sign-img" width="60" height="60"/>
+                        <br/>
+                        Signe astrologique chinois :
+                        <br />
+                        <strong id="chinese-sign-name">CHINOIS</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <img id="lucky-color-img" width="60" height="60"/>
+                        <br/>
+                        Couleur porte bonheur :
+                        <br />
+                        <strong id="lucky-color-name">COULEUR</strong>
+                    </td>
+                    <td>
+                        <img id="totem-animal-img" width="60" height="60"/>
+                        <br/>
+                        Animal totem :
+                        <br />
+                        <strong id="totem-animal-name">ANIMAL</strong>
+
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>
