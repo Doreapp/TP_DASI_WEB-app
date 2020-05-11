@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.text.SimpleDateFormat;	
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -103,7 +103,7 @@ public class Servlet extends HttpServlet {
                 }
                 jsonSerialisation.serialiseClientData((Client) user, response);
                 break;
-                case "subscribe":
+            case "subscribe":
                 String name = request.getParameter("nom");
                 String firstname = request.getParameter("prenom");
                 String date = request.getParameter("date");
@@ -111,28 +111,28 @@ public class Servlet extends HttpServlet {
                 String adresse = request.getParameter("adresse");
                 String email = request.getParameter("email");
                 String mdp = request.getParameter("password");
-                
+
                 Date d = new Date();
-                try{
+                try {
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     d = simpleDateFormat.parse(date);
-                }catch(Exception e) {
+                } catch (Exception e) {
                     System.err.println(e);
                 }
-                
-                Client client = new Client(email,name,firstname,numeroDeTelephone,mdp,d,adresse);
+
+                Client client = new Client(email, name, firstname, numeroDeTelephone, mdp, d, adresse);
                 Long idClient = service.inscrireClient(client);
-                if(idClient == null){
+                if (idClient == null) {
                     jsonSerialisation.result(false, response);
                 } else {
-                    HttpSession session = request.getSession(true);
-                    session.setAttribute("user",client);
+                    session = request.getSession(true);
+                    session.setAttribute("user", client);
                     jsonSerialisation.result(true, response);
                 }
-                
+
                 break;
             case "getHistoric":
-                HttpSession session = request.getSession(false);
+                session = request.getSession(false);
                 if (session == null) { //pas de session créée au préalable
                     response.sendError(HttpServletResponse.SC_FORBIDDEN);
                     break;
@@ -142,16 +142,16 @@ public class Servlet extends HttpServlet {
                     response.sendError(HttpServletResponse.SC_FORBIDDEN);
                     break;
                 }
-                System.out.println("******Client :"+user.toString());
+                System.out.println("******Client :" + user.toString());
                 jsonSerialisation.serialiseHistoric(service.historiqueClient((Client) user), response);
                 break;
             case "disconnect":
                 session = request.getSession(false);
-                if(session != null){
+                if (session != null) {
                     session.invalidate();
                 }
                 break;
-                
+
             default:
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
