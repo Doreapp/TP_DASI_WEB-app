@@ -96,8 +96,32 @@ public class JsonSerialisation {
         for(Conversation conv : conversations){
             JsonObject conversationJson = new JsonObject();
 
-            conversationJson.addProperty("id", conv.getMedium().getId());
+            conversationJson.addProperty("idMedium", conv.getMedium().getId());
             conversationJson.addProperty("date", simpleDateFormat.format(conv.getDateConsultation()));
+            conversationJson.addProperty("medium", (String)conv.getMedium().getNom());
+            
+            conversationsJson.add(conversationJson);
+        }
+        
+        container.add("conversations", conversationsJson);
+        
+        response.setContentType("application/json;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
+        gson.toJson(container, out);
+        out.close();
+    }
+
+    public void serialiseConversationPourEmploye(List<Conversation> conversations, HttpServletResponse response) throws IOException {
+        JsonObject container = new JsonObject();
+        
+        JsonArray conversationsJson = new JsonArray();
+        for(Conversation conv : conversations){
+            JsonObject conversationJson = new JsonObject();
+
+            conversationJson.addProperty("id", conv.getId());
+            conversationJson.addProperty("nomClient", (String)conv.getClinet().getNom());
+            conversationJson.addProperty("prenomClient", (String)conv.getClinet().getPrenom());
             conversationJson.addProperty("medium", (String)conv.getMedium().getNom());
             
             conversationsJson.add(conversationJson);
