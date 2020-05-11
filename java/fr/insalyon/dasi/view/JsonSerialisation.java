@@ -85,4 +85,29 @@ public class JsonSerialisation {
         gson.toJson(container, out);
         out.close();
     }
+    
+    public void serialiseHistoric(List<Conversation> conversations, HttpServletResponse response) throws IOException {
+        JsonObject container = new JsonObject();
+        
+        JsonArray conversationsJson = new JsonArray();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        
+        for(Conversation conv : conversations){
+            JsonObject conversationJson = new JsonObject();
+
+            conversationJson.addProperty("id", conv.getMedium().getId());
+            conversationJson.addProperty("date", simpleDateFormat.format(conv.getDateConsultation()));
+            conversationJson.addProperty("medium", (String)conv.getMedium().getNom());
+            
+            conversationsJson.add(conversationJson);
+        }
+        
+        container.add("conversations", conversationsJson);
+        
+        response.setContentType("application/json;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
+        gson.toJson(container, out);
+        out.close();
+    }
 }
