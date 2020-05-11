@@ -96,7 +96,7 @@ public class JsonSerialisation {
         for (Conversation conv : conversations) {
             JsonObject conversationJson = new JsonObject();
 
-            conversationJson.addProperty("id", conv.getMedium().getId());
+            conversationJson.addProperty("idMedium", conv.getMedium().getId());
             conversationJson.addProperty("date", simpleDateFormat.format(conv.getDateConsultation()));
             conversationJson.addProperty("medium", (String) conv.getMedium().getNom());
             conversationJson.addProperty("comment", (String) conv.getCommentaire());
