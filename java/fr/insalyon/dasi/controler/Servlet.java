@@ -8,6 +8,7 @@ package fr.insalyon.dasi.controler;
 import fr.insalyon.dasi.view.JsonSerialisation;
 import fr.insalyon.dasi.dao.JpaUtil;
 import fr.insalyon.dasi.metier.modele.Utilisateur;
+import fr.insalyon.dasi.metier.modele.Client;
 import fr.insalyon.dasi.metier.service.Service;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,6 +18,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  *
@@ -49,7 +52,6 @@ public class Servlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("todo");
-
         if (action == null) {
             return;
         }
@@ -69,12 +71,40 @@ public class Servlet extends HttpServlet {
                 }
                 Utilisateur user = service.authentifierUtilisateur(mail, password);
                 if(user == null){
-                    jsonSerialisation.connexion(false, response);
+                    jsonSerialisation.result(false, response);
                 } else {
                     HttpSession session = request.getSession(true);
                     session.setAttribute("user",user);
-                    jsonSerialisation.connexion(true, response);
+                    jsonSerialisation.result(true, response);
                 }
+                break;
+            case "subscribe":
+                String name = request.getParameter("nom");
+                String firstname = request.getParameter("prenom");
+                String date = request.getParameter("date");
+                String numeroDeTelephone = request.getParameter("numeroDeTelephone");
+                String adresse = request.getParameter("adresse");
+                String email = request.getParameter("email");
+                String mdp = request.getParameter("password");
+                
+                Date d = new Date();
+                try{
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    d = simpleDateFormat.parse(date);
+                }catch(Exception e) {
+                    System.err.println(e);
+                }
+                
+                Client client = new Client(email,name,firstname,numeroDeTelephone,mdp,d,adresse);
+                Long idClient = service.inscrireClient(client);
+                if(idClient == null){
+                    jsonSerialisation.result(false, response);
+                } else {
+                    HttpSession session = request.getSession(true);
+                    session.setAttribute("user",client);
+                    jsonSerialisation.result(true, response);
+                }
+                
                 break;
             default:
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST);
