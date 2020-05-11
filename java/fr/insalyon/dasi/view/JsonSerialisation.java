@@ -47,7 +47,7 @@ public class JsonSerialisation  {
     } 
     
     
-    public void connexion(boolean done, HttpServletResponse response) throws IOException {
+    public void result(boolean done, HttpServletResponse response) throws IOException {
         JsonObject container = new JsonObject();        
         
         int status = done ? 0 : 1;
