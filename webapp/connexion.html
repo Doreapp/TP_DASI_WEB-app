@@ -37,7 +37,7 @@ and open the template in the editor.
                         .done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
                             switch (response.status) {
                                 case 0:
-                                    alert("Vous êtes connecté");
+                                    document.location.href = "./client_home.html";
                                     break;
                                 case 1:
                                     alert("Email et/ou mot de passe érroné(s)");
