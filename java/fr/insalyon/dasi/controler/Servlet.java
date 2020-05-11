@@ -101,6 +101,34 @@ public class Servlet extends HttpServlet {
                 }
                 jsonSerialisation.serialiseClientData((Client) user, response);
                 break;
+                case "subscribe":
+                String name = request.getParameter("nom");
+                String firstname = request.getParameter("prenom");
+                String date = request.getParameter("date");
+                String numeroDeTelephone = request.getParameter("numeroDeTelephone");
+                String adresse = request.getParameter("adresse");
+                String email = request.getParameter("email");
+                String mdp = request.getParameter("password");
+                
+                Date d = new Date();
+                try{
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    d = simpleDateFormat.parse(date);
+                }catch(Exception e) {
+                    System.err.println(e);
+                }
+                
+                Client client = new Client(email,name,firstname,numeroDeTelephone,mdp,d,adresse);
+                Long idClient = service.inscrireClient(client);
+                if(idClient == null){
+                    jsonSerialisation.result(false, response);
+                } else {
+                    HttpSession session = request.getSession(true);
+                    session.setAttribute("user",client);
+                    jsonSerialisation.result(true, response);
+                }
+                
+                break;
             case "disconnect":
                 session = request.getSession(false);
                 if(session != null){
