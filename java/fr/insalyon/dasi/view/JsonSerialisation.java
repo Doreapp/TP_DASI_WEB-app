@@ -86,25 +86,26 @@ public class JsonSerialisation {
         gson.toJson(container, out);
         out.close();
     }
-    
+
     public void serialiseHistoric(List<Conversation> conversations, HttpServletResponse response) throws IOException {
         JsonObject container = new JsonObject();
-        
+
         JsonArray conversationsJson = new JsonArray();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        
-        for(Conversation conv : conversations){
+
+        for (Conversation conv : conversations) {
             JsonObject conversationJson = new JsonObject();
 
-            conversationJson.addProperty("idMedium", conv.getMedium().getId());
+            conversationJson.addProperty("id", conv.getMedium().getId());
             conversationJson.addProperty("date", simpleDateFormat.format(conv.getDateConsultation()));
-            conversationJson.addProperty("medium", (String)conv.getMedium().getNom());
-            
+            conversationJson.addProperty("medium", (String) conv.getMedium().getNom());
+            conversationJson.addProperty("comment", (String) conv.getCommentaire());
+
             conversationsJson.add(conversationJson);
         }
-        
+
         container.add("conversations", conversationsJson);
-        
+
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
         Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
@@ -112,23 +113,35 @@ public class JsonSerialisation {
         out.close();
     }
 
-    public void serialiseConversationPourEmploye(List<Conversation> conversations, HttpServletResponse response) throws IOException {
+    public void serialiseConversation(Conversation conversation, HttpServletResponse response) throws IOException {
         JsonObject container = new JsonObject();
-        
-        JsonArray conversationsJson = new JsonArray();
-        for(Conversation conv : conversations){
-            JsonObject conversationJson = new JsonObject();
 
-            conversationJson.addProperty("id", conv.getId());
-            conversationJson.addProperty("nomClient", (String)conv.getClinet().getNom());
-            conversationJson.addProperty("prenomClient", (String)conv.getClinet().getPrenom());
-            conversationJson.addProperty("medium", (String)conv.getMedium().getNom());
-            
-            conversationsJson.add(conversationJson);
-        }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        container.addProperty("date", simpleDateFormat.format(conversation.getDateConsultation()));
         
-        container.add("conversations", conversationsJson);
+        //medium
+       
+        Medium m = conversation.getMedium();
+        JsonObject medium = new JsonObject();
+        medium.addProperty("id", m.getId());
+        medium.addProperty("name", m.getNom());
+        medium.addProperty("presentation", m.getPresentation());
+        medium.addProperty("genre", m.getGenre());
         
+        //client
+        Client c = conversation.getClinet();
+        JsonObject client = new JsonObject();
+        client.addProperty("id", c.getId());
+        client.addProperty("name", c.getNom());
+        client.addProperty("firstname", c.getPrenom());
+        client.addProperty("zodiaque_sign", c.getSigneZodiaque());
+        client.addProperty("chinese_sign", c.getSigneChinois());
+        client.addProperty("totem_animal", c.getAnimalTotem());
+        client.addProperty("lucky_color", c.getCouleurBonheur());
+        
+        container.add("medium",medium);
+        container.add("client",client);
+
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
         Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
