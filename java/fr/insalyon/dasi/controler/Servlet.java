@@ -131,6 +131,20 @@ public class Servlet extends HttpServlet {
                 }
                 
                 break;
+            case "getHistoric":
+                HttpSession session = request.getSession(false);
+                if (session == null) { //pas de session créée au préalable
+                    response.sendError(HttpServletResponse.SC_FORBIDDEN);
+                    break;
+                }
+                user = (Utilisateur) session.getAttribute("user");
+                if (user == null || !(user instanceof Client)) {
+                    response.sendError(HttpServletResponse.SC_FORBIDDEN);
+                    break;
+                }
+                System.out.println("******Client :"+user.toString());
+                jsonSerialisation.serialiseHistoric(service.historiqueClient((Client) user), response);
+                break;
             case "disconnect":
                 session = request.getSession(false);
                 if(session != null){
