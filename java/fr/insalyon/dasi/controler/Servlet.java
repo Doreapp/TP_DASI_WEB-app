@@ -119,15 +119,19 @@ public class Servlet extends HttpServlet {
                 new ActionStartConversation().execute(request);
                 new SerialisationStatus().serialise(request, response);
                 break;
-
+                
             case "stats":
                 new ActionStats().execute(request);
                 new SerialisationStats().serialise(request, response);
                 break;
 
-            case "getHelp":
-                new ActionGetHelp().execute(request);
-                new SerialisationPrediction().serialise(request, response);
+            case "terminerConv":
+                new ActionFinirConv().execute(request);
+                break;
+
+            case "finirConv":
+                new ActionFinirConv2().execute(request);
+                new SerialisationConversation().serialise(request, response);
                 break;
 
             default:

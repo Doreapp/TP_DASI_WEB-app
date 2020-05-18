@@ -28,6 +28,7 @@ public class SerialisationConversation extends Serialisation {
         JsonObject container = new JsonObject();
 
         Conversation conversation = (Conversation) request.getAttribute("covnersation");
+        System.out.println(conversation.toString());
         if (conversation == null) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
