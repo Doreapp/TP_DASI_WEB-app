@@ -109,6 +109,10 @@ public class Servlet extends HttpServlet {
                 new ActionGetConversationData().execute(request);
                 new SerialisationConversation().serialise(request, response);
                 break;
+                
+            case "getHelp":
+                new ActionGetHelp().execute(request);
+                new SerialisationPrediction().serialise(request, response);
 
             case "getClientHistory":
                 new ActionGetClientHistory().execute(request);
