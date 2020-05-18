@@ -31,7 +31,7 @@ public class JsonSerialisation {
         for (Medium medium : mediums) {
             JsonObject mediumJson = new JsonObject();
 
-            mediumJson.addProperty("id", medium.getId());
+            mediumJson.addProperty("idMedium", medium.getId());
             mediumJson.addProperty("nom", medium.getNom());
             mediumJson.addProperty("genre", medium.getGenre());
             mediumJson.addProperty("presentation", medium.getPresentation());
