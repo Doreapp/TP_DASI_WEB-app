@@ -11,12 +11,6 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <link rel="stylesheet" href="stylesheet.css" />
-    </head>
-    <body>
-
-        <section id="mediums-list">
-
-        </section> 
         <script type="text/javascript">
             function showMediums() {
                 $.ajax({
@@ -32,16 +26,16 @@ and open the template in the editor.
                             $.each(response.mediums,
                                     function (index, element) {
                                         var box = $('<div>', {
-                                            "class" : "medium-container"
+                                            "class": "medium-container"
                                         });
                                         box.append($('<span>', {
-                                            "class" : "medium-name",
-                                            text : element.nom,
+                                            "class": "medium-name",
+                                            text: element.nom,
                                         }));
                                         box.append($('<br/>'));
                                         box.append($('<span>', {
-                                            "class" : "medium-description",
-                                            text : element.presentation,
+                                            "class": "medium-description",
+                                            text: element.presentation,
                                         }));
                                         section.append(box);
                                     });
@@ -56,7 +50,24 @@ and open the template in the editor.
 
             $(document).ready(function () {
                 showMediums();
+                
+                $('#button-connect').click(function () {
+                    document.location.href = "./connexion.html";
+                });
+                
+                $('#button-signin').click(function () {
+                    document.location.href = "./inscription.html";
+                })
             });
         </script>
+    </head>
+    <body>
+
+        <button id="button-connect">Se connecter</button>
+        <button id="button-signin">S'inscrire</button>
+
+        <section id="mediums-list">
+        </section> 
+
     </body>
 </html>

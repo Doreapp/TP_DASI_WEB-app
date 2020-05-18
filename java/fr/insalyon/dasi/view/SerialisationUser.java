@@ -29,6 +29,7 @@ public class SerialisationUser extends Serialisation {
         Utilisateur user = (Utilisateur) request.getAttribute("user");
         if (user == null) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
         }
 
         if (user instanceof Client) {

@@ -11,17 +11,31 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <link rel="stylesheet" href="stylesheet.css" />
-    </head>
-    <body>
-        <section id="accueil">
-            
-        </section>
         <script type="text/javascript">
-            function demande(id){
-                document.location.href = "./consult.html?idConv="+id;
+            function demande(id) {
+                document.location.href = "./consult.html?idConv=" + id;
             }
-            
+
+
+            function disconnect() {
+                console.log("disconnect");
+                $.ajax({
+                    url: './Servlet',
+                    method: 'GET',
+                    data: {
+                        todo: 'disconnect'
+                    },
+                    dataType: 'json'
+                })
+                        .always(function () { // Fonction toujours appelée
+                            document.location.href = "./home.html";
+                        });
+            }
+
             $(document).ready(function () {
+
+                $('#disconnect-button').click(disconnect);
+
                 $.ajax({
                     url: './Servlet',
                     method: 'GET',
@@ -35,25 +49,27 @@ and open the template in the editor.
                             $.each(response.conversations,
                                     function (index, element) {
                                         var box = $('<div>', {
-                                            "class" : "list-container"
+                                            "class": "list-container"
                                         });
                                         box.append($('<span>', {
-                                            "class" : "txt",
-                                            text : "Consultation requise pour "+element.prenomClient+" "+element.nomClient
+                                            "class": "txt",
+                                            text: "Consultation requise pour " + element.prenomClient + " " + element.nomClient
                                         }));
                                         box.append($('<br>'));
                                         box.append($('<span>', {
-                                            "class" : "medium",
-                                            text : "Médium à incarner : "+element.medium
+                                            "class": "medium",
+                                            text: "Médium à incarner : " + element.medium
                                         }));
                                         box.append($('<br>'));
                                         box.append($('<button>', {
-                                            "class" : "button",
+                                            "class": "button",
                                             //"onclick" : function(){demande(element.id);},
-                                            "text" : "Joindre"
+                                            "text": "Joindre"
                                         })
-                                                .on("click",function(){demande(element.id);})
-                                        );
+                                                .on("click", function () {
+                                                    demande(element.id);
+                                                })
+                                                );
                                         section.append(box);
                                     });
                         })
@@ -65,5 +81,13 @@ and open the template in the editor.
                         });
             });
         </script>
+    </head>
+    <body>
+        <button id="disconnect-button">Disconnect</button>
+        <section id="accueil">
+
+        </section>
+
+
     </body>
 </html>

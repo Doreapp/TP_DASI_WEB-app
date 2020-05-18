@@ -5,46 +5,62 @@
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    </head>
-    <body>
-        <input type="text" placeholder="nom" name="nom" id="nom"/>
-        <input type="text" placeholder="prenom" name="prenom" id="prenom"/>
-        <input type="date" name="date" id="date"/>
-        <input type="text" placeholder="numeroDeTelephone" name="numeroDeTelephone" id="numeroDeTelephone"/>
-        <input type="text" placeholder="adresse" name="adresse" id="adresse"/>
-        <input type="text" placeholder="email" name="email" id="email"/>
-        <input type="password" placeholder="Mot de Passe" name="motDePasse" id="motDePasse" />
-        <button id="button">Se connecter</button>
-        
         <script type="text/javascript">
-            $(document).ready( function() {
-                $('#button').on('click',function(){
+            $(document).ready(function () {
+                $('#button').on('click', function () {
                     $.ajax({
-                    url: './Servlet',
-                    method: 'GET',
-                    data: {
-                        todo    : 'subscribe',
-                        nom     : $("#nom").val(),
-                        prenom  : $("#prenom").val(),
-                        date    : $("#date").val(),
-                        numeroDeTelephone  : $("#numeroDeTelephone").val(),
-                        adresse  : $("#adresse").val(),
-                        email  : $("#email").val(),
-                        password  : $("#motDePasse").val()
-                    },
-                    dataType: 'json'
-                })
-                        .done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
-                            alert("Vous etes inscrit");
-                        })
-                        .fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
-                            alert("Erreur lors de l'appel AJAX");
-                        })
-                        .always(function () { // Fonction toujours appelée
+                        url: './Servlet',
+                        method: 'GET',
+                        data: {
+                            todo: 'subscribe',
+                            nom: $("#nom").val(),
+                            prenom: $("#prenom").val(),
+                            date: $("#date").val(),
+                            numeroDeTelephone: $("#numeroDeTelephone").val(),
+                            adresse: $("#adresse").val(),
+                            email: $("#email").val(),
+                            password: $("#motDePasse").val()
+                        },
+                        dataType: 'json'
+                    })
+                            .done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                                alert("Vous etes inscrit");
+                            })
+                            .fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                                alert("Erreur lors de l'appel AJAX");
+                            })
+                            .always(function () { // Fonction toujours appelée
 
-                        });
+                            });
                 });
             });
         </script>
+    </head>
+    <body>
+        <label for="nom">Nom :</label>
+        <input type="text" placeholder="nom" name="nom" id="nom"/>
+        <br/>
+        <label for="nom">Prénom :</label>
+        <input type="text" placeholder="prenom" name="prenom" id="prenom"/>
+        <br/>
+        <label for="nom">Date de naissance :</label>
+        <input type="date" name="date" id="date"/>
+        <br/>
+        <label for="nom">Numéro de téléphone :</label>
+        <input type="text" placeholder="numeroDeTelephone" name="numeroDeTelephone" id="numeroDeTelephone"/>
+        <br/>
+        <label for="nom">Adresse Postale :</label>
+        <input type="text" placeholder="adresse" name="adresse" id="adresse"/>
+        <br/>
+        <label for="nom">Email :</label>
+        <input type="text" placeholder="email" name="email" id="email"/>
+        <br/>
+        <label for="nom">Mot de passe</label>
+        <input type="password" placeholder="Mot de Passe" name="motDePasse" id="motDePasse" />
+        <br/>
+        <button id="button">S'inscrire</button>
+        <br/>
+        <a href="./connexion.html">J'ai déjà un compte</a>
+
     </body>
 </html>

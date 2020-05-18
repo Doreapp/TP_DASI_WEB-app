@@ -11,13 +11,51 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <link rel="stylesheet" href="stylesheet.css" />
-    </head>
-    <body>
-        <section id="historique">
-            
-        </section>
         <script type="text/javascript">
+            function loadData() {
+                $.ajax({
+                    url: './Servlet',
+                    method: 'GET',
+                    data: {
+                        todo: 'getClientData'
+                    },
+                    dataType: 'json'
+                })
+                        .done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                            $('#client-name').text(response.name);
+                            $('#client-firstname').text(response.firstname);
+                            $('#zodiaque-sign-name').text(response.zodiaque_sign);
+                            $('#chinese-sign-name').text(response.chinese_sign);
+                            $('#lucky-color-name').text(response.lucky_color);
+                            $('#totem-animal-name').text(response.totem_animal);
+                        })
+                        .fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                            alert("Erreur lors de l'appel AJAX");
+                        })
+                        .always(function () { // Fonction toujours appelée
+
+                        });
+            }
+
+            function disconnect() {
+                console.log("disconnect");
+                $.ajax({
+                    url: './Servlet',
+                    method: 'GET',
+                    data: {
+                        todo: 'disconnect'
+                    },
+                    dataType: 'json'
+                })
+                        .always(function () { // Fonction toujours appelée
+                            document.location.href = "./home.html";
+                        });
+            }
+
             $(document).ready(function () {
+                loadData();
+                $('#disconnect-button').click(disconnect);
+
                 $.ajax({
                     url: './Servlet',
                     method: 'GET',
@@ -31,15 +69,15 @@ and open the template in the editor.
                             $.each(response.conversations,
                                     function (index, element) {
                                         var box = $('<div>', {
-                                            "class" : "list-container"
+                                            "class": "list-container"
                                         });
                                         box.append($('<span>', {
-                                            "class" : "date-conversation",
-                                            text : element.date,
+                                            "class": "date-conversation",
+                                            text: element.date,
                                         }));
                                         box.append($('<span>', {
-                                            "class" : "medium",
-                                            text : element.medium,
+                                            "class": "medium",
+                                            text: element.medium,
                                         }));
                                         section.append(box);
                                     });
@@ -52,5 +90,26 @@ and open the template in the editor.
                         });
             });
         </script>
+    </head>
+    <body>
+        <section style="display:flex; justify-content: space-around; align-items: center; ">
+            <p id="connexion-id">
+                Nom : <strong id="client-name">NOMMM</strong>
+                <br/>
+                Prenom : <strong id="client-firstname">PR2NOOOMMM</strong> 
+            </p>
+            <h1>PREDICT'IF</h1>
+            <button id="disconnect-button">Disconnect</button>
+        </section>
+
+        <div id="navigation-bar">
+            <a class="navigation-button" href="./client_home.html">Accueil</a>
+            <a class="navigation-button" href="./mediums.html">Médiums</a>
+            <a class="navigation-button">Historique</a>
+        </div>
+
+        <section id="historique">
+
+        </section>
     </body>
 </html>

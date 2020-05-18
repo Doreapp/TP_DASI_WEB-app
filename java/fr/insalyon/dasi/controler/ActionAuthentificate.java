@@ -8,6 +8,7 @@ package fr.insalyon.dasi.controler;
 import fr.insalyon.dasi.metier.modele.Utilisateur;
 import fr.insalyon.dasi.metier.service.Service;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -20,10 +21,15 @@ public class ActionAuthentificate extends Action {
         String mail = request.getParameter("mail");
         String password = request.getParameter("password");
         Utilisateur user = null;
-        
+
         if (mail != null && password != null) {
             Service service = new Service();
             user = service.authentifierUtilisateur(mail, password);
+        }
+
+        if (user != null) {
+            HttpSession session = request.getSession(true);
+            session.setAttribute("user", user);
         }
         
         request.setAttribute("user", user);
