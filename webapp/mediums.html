@@ -7,17 +7,54 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <link rel="stylesheet" href="stylesheet.css" />
-    </head>
-    <body>
-        <div id="mediums-list"></div> 
         <script type="text/javascript">
-            function demande(id){
+            function loadData() {
+                $.ajax({
+                    url: './Servlet',
+                    method: 'GET',
+                    data: {
+                        todo: 'getClientData'
+                    },
+                    dataType: 'json'
+                })
+                        .done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                            $('#client-name').text(response.name);
+                            $('#client-firstname').text(response.firstname);
+                            $('#zodiaque-sign-name').text(response.zodiaque_sign);
+                            $('#chinese-sign-name').text(response.chinese_sign);
+                            $('#lucky-color-name').text(response.lucky_color);
+                            $('#totem-animal-name').text(response.totem_animal);
+                        })
+                        .fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                            alert("Erreur lors de l'appel AJAX");
+                        })
+                        .always(function () { // Fonction toujours appelée
+
+                        });
+            }
+
+            function disconnect() {
+                console.log("disconnect");
+                $.ajax({
+                    url: './Servlet',
+                    method: 'GET',
+                    data: {
+                        todo: 'disconnect'
+                    },
+                    dataType: 'json'
+                })
+                        .always(function () { // Fonction toujours appelée
+                            document.location.href = "./home.html";
+                        });
+            }
+
+            function demande(id) {
                 $.ajax({
                     url: './Servlet',
                     method: 'POST',
                     data: {
                         todo: 'createConversation',
-                        id  : id
+                        id: id
                     },
                     dataType: 'json'
                 })
@@ -31,8 +68,11 @@
 
                         });
             }
-            
+
             $(document).ready(function () {
+                loadData();
+                $('#disconnect-button').click(disconnect);
+
                 $.ajax({
                     url: './Servlet',
                     method: 'POST',
@@ -46,23 +86,25 @@
                             $.each(response.mediums,
                                     function (index, element) {
                                         var box = $('<div>', {
-                                            "class" : "medium-container"
+                                            "class": "medium-container"
                                         });
                                         box.append($('<span>', {
-                                            "class" : "medium-name",
-                                            text : element.nom,
+                                            "class": "medium-name",
+                                            text: element.nom,
                                         }));
                                         box.append($('<br/>'));
                                         box.append($('<span>', {
-                                            "class" : "medium-description",
-                                            text : element.presentation,
+                                            "class": "medium-description",
+                                            text: element.presentation,
                                         }));
                                         box.append($('<button>', {
-                                            "class" : "button",
-                                            "text" : "Joindre"
+                                            "class": "button",
+                                            "text": "Joindre"
                                         })
-                                                .on("click",function(){demande(element.id);})
-                                        );
+                                                .on("click", function () {
+                                                    demande(element.id);
+                                                })
+                                                );
                                         section.append(box);
                                     });
                         })
@@ -73,6 +115,25 @@
 
                         });
             });
-        </script>                                                                       
+        </script>            
+    </head>
+    <body>
+        <section style="display:flex; justify-content: space-around; align-items: center; ">
+            <p id="connexion-id">
+                Nom : <strong id="client-name">NOMMM</strong>
+                <br/>
+                Prenom : <strong id="client-firstname">PR2NOOOMMM</strong> 
+            </p>
+            <h1>PREDICT'IF</h1>
+            <button id="disconnect-button">Disconnect</button>
+        </section>
+
+        <div id="navigation-bar">
+            <a class="navigation-button" href="./client_home.html">Accueil</a>
+            <a class="navigation-button" >Médiums</a>
+            <a class="navigation-button" href="./historic.html">Historique</a>
+        </div>
+
+        <div id="mediums-list"></div>                                                            
     </body>
 </html>

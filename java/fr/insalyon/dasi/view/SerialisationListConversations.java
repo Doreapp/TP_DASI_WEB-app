@@ -40,6 +40,7 @@ public class SerialisationListConversations extends Serialisation {
         for (Conversation conv : conversations) {
             JsonObject conversationJson = new JsonObject();
 
+            conversationJson.addProperty("id", conv.getId());
             conversationJson.addProperty("idMedium", conv.getMedium().getId());
             conversationJson.addProperty("date", simpleDateFormat.format(conv.getDateConsultation()));
             conversationJson.addProperty("medium", (String) conv.getMedium().getNom());

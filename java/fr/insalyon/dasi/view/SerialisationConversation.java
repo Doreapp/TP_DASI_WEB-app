@@ -27,14 +27,15 @@ public class SerialisationConversation extends Serialisation {
     public void serialise(HttpServletRequest request, HttpServletResponse response) throws IOException {
         JsonObject container = new JsonObject();
 
-        Conversation conversation = (Conversation) request.getAttribute("covnersation");
-        System.out.println(conversation.toString());
+        Conversation conversation = (Conversation) request.getAttribute("conversation");
         if (conversation == null) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
         }
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         container.addProperty("date", simpleDateFormat.format(conversation.getDateConsultation()));
+        container.addProperty("id", conversation.getId());
 
         //medium
         Medium m = conversation.getMedium();

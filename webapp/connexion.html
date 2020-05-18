@@ -16,17 +16,17 @@ and open the template in the editor.
             function connect() {
                 var mail = $("#mail").val();
                 var password = $("#password").val();
-                if(mail.trim() === ""){
+                if (mail.trim() === "") {
                     alert("Veuillez entrer votre email.");
                     return;
                 }
-                if(password === ""){
+                if (password === "") {
                     alert("Veuiller entrer votre mot de passe.");
-                    retrun;
+                    return;
                 }
                 $.ajax({
                     url: './Servlet',
-                    method: 'GET',
+                    method: 'POST',
                     data: {
                         todo: 'authentificate',
                         mail: $("#mail").val(),
@@ -35,18 +35,16 @@ and open the template in the editor.
                     dataType: 'json'
                 })
                         .done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
-                            switch (response.status) {
-                                case 0:
-                                    alert("Connect");
-                                    //document.location.href = "./client_home.html";
-                                    break;
-                                case 1:
-                                    alert("Email et/ou mot de passe érroné(s)");
-                                    break;
+                            if (response.type === "client") {
+                                document.location.href = "./client_home.html";
+                            } else if (response.type === "employe") {
+                                document.location.href = "./employe_home.html";
+                            } else {
+                                alert("Email et/ou mot de passe érroné(s)");
                             }
                         })
                         .fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
-                            alert("Erreur lors de l'appel AJAX");
+                            alert("Email et/ou mot de passe érroné(s)");
                         })
                         .always(function () { // Fonction toujours appelée
 
@@ -66,6 +64,8 @@ and open the template in the editor.
             <input type="password" id="password" placeholder="Mot de passe"/>
             <br/>
             <button id="connect-button">Se connecter</button>
+            <br/>
+            <a href="./inscription.html">S'inscrire</a>
         </section>
 
     </body>

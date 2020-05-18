@@ -5,39 +5,48 @@
  */
 package fr.insalyon.dasi.controler;
 
-import fr.insalyon.dasi.metier.modele.Utilisateur;
 import fr.insalyon.dasi.metier.modele.Conversation;
-import fr.insalyon.dasi.metier.modele.Employe;
+import fr.insalyon.dasi.metier.modele.Client;
+import fr.insalyon.dasi.metier.modele.Medium;
 import fr.insalyon.dasi.metier.service.Service;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author antoi
  */
-public class ActionGetEmployeConversations extends Action {
+public class ActionCreateConversation extends Action {
 
     @Override
     public void execute(HttpServletRequest request) {
+        System.out.println("crerr");
         HttpSession session = request.getSession(false);
         if (session == null) { //pas de session créée au préalable
-            System.out.println("session null");
             return;
         }
-        Utilisateur user = (Utilisateur) session.getAttribute("user");
-        if (user == null || !(user instanceof Employe)) {
-            System.out.println("user null");
+        Client cli = (Client) session.getAttribute("user");
+        if (cli == null) {
             return;
         }
+        String param = request.getParameter("id");
+        if (param == null) {
+            return;
+        }
+        
         Service service = new Service();
-        List<Conversation> conversations
-                = service.rechercherConversationPourEmploye((Employe) user);
+        
+        Medium medium = service.getMediumParId(Long.parseLong(param));
+        if (medium == null) {
+            return;
+        }
+        System.out.println("crerr 2");
+        Conversation c = service.creerConversation(cli, medium);
 
-        System.out.println("conversations ok");
-        request.setAttribute("conversations", conversations);
-
+        System.out.println("crerr 3 : "+c);
+        request.setAttribute("status", 0);
     }
 
 }
