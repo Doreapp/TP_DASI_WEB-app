@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Choix du médium</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <link rel="stylesheet" href="stylesheet.css" />
+    </head>
+    <body>
+        <div id="mediums-list"></div> 
+        <script type="text/javascript">
+            function demande(id){
+                $.ajax({
+                    url: './Servlet',
+                    method: 'POST',
+                    data: {
+                        todo: 'createConversation',
+                        id  : id
+                    },
+                    dataType: 'json'
+                })
+                        .done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                            alert("Conversation créée");
+                        })
+                        .fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                            alert("Erreur lors de l'appel AJAX");
+                        })
+                        .always(function () { // Fonction toujours appelée
+
+                        });
+            }
+            
+            $(document).ready(function () {
+                $.ajax({
+                    url: './Servlet',
+                    method: 'POST',
+                    data: {
+                        todo: 'getmediums'
+                    },
+                    dataType: 'json'
+                })
+                        .done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                            var section = $('#mediums-list');
+                            $.each(response.mediums,
+                                    function (index, element) {
+                                        var box = $('<div>', {
+                                            "class" : "medium-container"
+                                        });
+                                        box.append($('<span>', {
+                                            "class" : "medium-name",
+                                            text : element.nom,
+                                        }));
+                                        box.append($('<br/>'));
+                                        box.append($('<span>', {
+                                            "class" : "medium-description",
+                                            text : element.presentation,
+                                        }));
+                                        box.append($('<button>', {
+                                            "class" : "button",
+                                            "text" : "Joindre"
+                                        })
+                                                .on("click",function(){demande(element.id);})
+                                        );
+                                        section.append(box);
+                                    });
+                        })
+                        .fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                            alert("Erreur lors de l'appel AJAX");
+                        })
+                        .always(function () { // Fonction toujours appelée
+
+                        });
+            });
+        </script>                                                                       
+    </body>
+</html>
