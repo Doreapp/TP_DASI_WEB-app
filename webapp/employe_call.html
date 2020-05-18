@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>Consultations</title>
+        <title>Appel</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -30,7 +30,7 @@ and open the template in the editor.
                     alert("La consultation n'a pas étée spécifiée");
                     return;
                 }
-
+                
                 convId = result;
 
                 $.ajax({
@@ -43,7 +43,7 @@ and open the template in the editor.
                     dataType: 'json'
                 })
                         .done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
-                            //console.log(response);
+                            console.log(response);
                             $('#client-name-top').text(response.client.name);
                             $('#medium-name-top').text(response.medium.name);
                             $('#client-name-bottom').text(response.client.name);
@@ -62,8 +62,8 @@ and open the template in the editor.
 
                         });
             }
-            
-            function loadHistory(id){
+
+            function loadHistory(id) {
                 $.ajax({
                     url: './Servlet',
                     method: 'GET',
@@ -74,23 +74,23 @@ and open the template in the editor.
                     dataType: 'json'
                 })
                         .done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
-                            //console.log(response);
-                             var section = $('#history');
+                            console.log(response);
+                            var section = $('#history');
                             $.each(response.conversations,
                                     function (index, element) {
                                         var box = $('<li>');
                                         box.append($('<span>', {
-                                            "class" : "medium-name",
-                                            text : element.medium,
+                                            "class": "medium-name",
+                                            text: element.medium,
                                         }));
                                         box.append($('<span>', {
-                                            "class" : "date",
-                                            text : " · "+element.date,
+                                            "class": "date",
+                                            text: " · " + element.date,
                                         }));
                                         box.append($('<br/>'));
                                         box.append($('<span>', {
-                                            "class" : "comment",
-                                            text : "\""+element.comment+"\"",
+                                            "class": "comment",
+                                            text: "\"" + element.comment + "\"",
                                         }));
                                         section.append(box);
                                     });
@@ -104,46 +104,35 @@ and open the template in the editor.
                         });
             }
 
-            function startConversation(){
-                $.ajax({
-                    url: './Servlet',
-                    method: 'GET',
-                    data: {
-                        todo: 'startConversation',
-                        id: convId
-                    },
-                    dataType: 'json'
-                })
-                        .done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
-                            if(response.status === 0){
-                                document.location.href = "./employe_call.html?idConv="+convId;
-                            }
-                        })
-                        .fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
-                            console.log("ERROR : " + error);
-                            alert("Erreur lors de l'appel AJAX");
-                        })
-                        .always(function () { // Fonction toujours appelée
+            function openHelp() {
+                //TODO
+                console.log('help clicked');
+            }
 
-                        });
+            function endConversation() {
+                //TODO
+                console.log('end clicked');
             }
 
             $(document).ready(function () {
                 loadConsultation();
-                $('#button-start').click(startConversation);
+                $('#button-help').click(openHelp);
+                $('#button-end').click(endConversation);
             });
         </script>
     </head>
     <body>
         <div>
+            En connexion avec
             <strong id="client-name-top">CLIENT</strong>
-            demande
+            en tant que
             <strong id="medium-name-top">MEDIUM</strong>
-            <button id="button-start">Commencer</button>
+            <button id="button-end">Terminer</button>
         </div>
         <div class="white-container">
             Medium à incarner : 
             <strong id="medium-name-bottom">CLIENT</strong>
+            <button id="button-help">Aide</button>
             <hr/>
             <h4 id="client-name-bottom">CLIENT</h4>
             <br/>
