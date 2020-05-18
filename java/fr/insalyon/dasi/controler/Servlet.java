@@ -9,6 +9,11 @@ import fr.insalyon.dasi.view.JsonSerialisation;
 import fr.insalyon.dasi.dao.JpaUtil;
 import fr.insalyon.dasi.metier.modele.*;
 import fr.insalyon.dasi.metier.service.Service;
+import fr.insalyon.dasi.view.SerialisationConversation;
+import fr.insalyon.dasi.view.SerialisationListConversations;
+import fr.insalyon.dasi.view.SerialisationListMediums;
+import fr.insalyon.dasi.view.SerialisationStatus;
+import fr.insalyon.dasi.view.SerialisationUser;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -68,144 +73,55 @@ public class Servlet extends HttpServlet {
             
         
          */
-        Service service = new Service();
-        JsonSerialisation jsonSerialisation = new JsonSerialisation();
         switch (action) {
             case "getmediums": //Acceuil : get medium list
-                jsonSerialisation.serialise(service.getMediums(), response);
+                new ActionGetMediums().execute(request);
+                new SerialisationListMediums().serialise(request, response);
                 break;
 
             case "authentificate": //Connexion : connect (mail, password)
-                String mail = request.getParameter("mail");
-                String password = request.getParameter("password");
-                if (mail == null || password == null) {
-                    response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-                    break;
-                }
-                Utilisateur user = service.authentifierUtilisateur(mail, password);
-                if (user == null) {
-                    jsonSerialisation.result(false, response);
-                } else {
-                    HttpSession session = request.getSession(true);
-                    session.setAttribute("user", user);
-                    jsonSerialisation.result(true, response);
-                }
+                new ActionAuthentificate().execute(request);
+                new SerialisationUser().serialise(request, response);
                 break;
 
             case "getClientData":
-                HttpSession session = request.getSession(false);
-                if (session == null) { //pas de session créée au préalable
-                    response.sendError(HttpServletResponse.SC_FORBIDDEN);
-                    break;
-                }
-                user = (Utilisateur) session.getAttribute("user");
-                if (user == null || !(user instanceof Client)) {
-                    response.sendError(HttpServletResponse.SC_FORBIDDEN);
-                    break;
-                }
-                jsonSerialisation.serialiseClientData((Client) user, response);
+                new ActionGetClientData().execute(request);
+                new SerialisationUser().serialise(request, response);
                 break;
 
             case "subscribe":
-                String name = request.getParameter("nom");
-                String firstname = request.getParameter("prenom");
-                String date = request.getParameter("date");
-                String numeroDeTelephone = request.getParameter("numeroDeTelephone");
-                String adresse = request.getParameter("adresse");
-                String email = request.getParameter("email");
-                String mdp = request.getParameter("password");
-
-                Date d = new Date();
-                try {
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    d = simpleDateFormat.parse(date);
-                } catch (Exception e) {
-                    System.err.println(e);
-                }
-
-                Client client = new Client(email, name, firstname, numeroDeTelephone, mdp, d, adresse);
-                Long idClient = service.inscrireClient(client);
-                if (idClient == null) {
-                    jsonSerialisation.result(false, response);
-                } else {
-                    session = request.getSession(true);
-                    session.setAttribute("user", client);
-                    jsonSerialisation.result(true, response);
-                }
-
+                new ActionSubscribe().execute(request);
+                new SerialisationUser().serialise(request, response);
                 break;
 
             case "getHistoric":
-                session = request.getSession(false);
-                if (session == null) { //pas de session créée au préalable
-                    response.sendError(HttpServletResponse.SC_FORBIDDEN);
-                    break;
-                }
-                user = (Utilisateur) session.getAttribute("user");
-                if (user == null || !(user instanceof Client)) {
-                    response.sendError(HttpServletResponse.SC_FORBIDDEN);
-                    break;
-                }
-                jsonSerialisation.serialiseHistoric(service.historiqueClient((Client) user), response);
+                new ActionGetHistory().execute(request);
+                new SerialisationListConversations().serialise(request, response);
                 break;
 
             case "disconnect":
-                session = request.getSession(false);
-                if (session != null) {
-                    session.invalidate();
-                }
+                new ActionDisconnect().execute(request);
+                new SerialisationStatus().serialise(request, response);
                 break;
-                
-                case "rechercherConversationPourEmploye":
-                session = request.getSession(false);
-                if (session == null) { //pas de session créée au préalable
-                    response.sendError(HttpServletResponse.SC_FORBIDDEN);
-                    break;
-                }
-                user = (Utilisateur) session.getAttribute("user");
-                if (user == null || !(user instanceof Employe)) {
-                    response.sendError(HttpServletResponse.SC_FORBIDDEN);
-                    break;
-                }
-                jsonSerialisation.serialiseConversationPourEmploye(service.rechercherConversationPourEmploye((Employe) user), response);
+
+            case "rechercherConversationPourEmploye":
+                new ActionGetEmployeConversations().execute(request);
+                new SerialisationListConversations().serialise(request, response);
                 break;
 
             case "getConsultationData":
-                String param = request.getParameter("id");
-                if (param == null) {
-                    response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-                    break;
-                }
-                long id;
-                try {
-                    id = Long.parseLong(param);
-                } catch (NumberFormatException e) {
-                    response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-                    break;
-                }
-                Conversation conv = service.getConversationParId(id);
-                if (conv == null) {
-                    response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-                    break;
-                }
-                jsonSerialisation.serialiseConversation(conv, response);
+                new ActionGetConversationData().execute(request);
+                new SerialisationConversation().serialise(request, response);
                 break;
 
             case "getClientHistory":
-                param = request.getParameter("id");
-                if (param == null) {
-                    response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-                    break;
-                }
-                id = 0;
-                try {
-                    id = Long.parseLong(param);
-                } catch (NumberFormatException e) {
-                    response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-                    break;
-                }
-                
-                jsonSerialisation.serialiseHistoric(service.historiqueClient(id), response);
+                new ActionGetClientHistory().execute(request);
+                new SerialisationListConversations().serialise(request, response);
+                break;
+
+            case "startConversation":
+                new ActionStartConversation().execute(request);
+                new SerialisationStatus().serialise(request, response);
                 break;
 
             default:
