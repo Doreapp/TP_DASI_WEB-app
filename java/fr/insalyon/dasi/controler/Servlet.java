@@ -134,11 +134,6 @@ public class Servlet extends HttpServlet {
                 new ActionGetHelp().execute(request);
                 new SerialisationPrediction().serialise(request, response);
                 break;
-                
-            case "getHelp":	
-                new ActionGetHelp().execute(request);	
-                new SerialisationPrediction().serialise(request, response);
-                break;
 
             case "terminerConv":	            
                 new ActionFinirConv().execute(request);	              
