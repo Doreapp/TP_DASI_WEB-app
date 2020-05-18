@@ -140,7 +140,7 @@ public class Servlet extends HttpServlet {
                 break;	               
 
             case "finirConv":	
-                new ActionFinirConv2().execute(request);	
+                new ActionFinirConv2().execute(request);
                 new SerialisationConversation().serialise(request, response);	
                 break;
 

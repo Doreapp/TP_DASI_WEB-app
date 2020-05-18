@@ -49,7 +49,8 @@ and open the template in the editor.
                             $.each(response.conversations,
                                     function (index, element) {
                                         var box = $('<div>', {
-                                            "class": "list-container"
+                                            "class": "list-container",
+                                            "style": "width:80%;"
                                         });
                                         box.append($('<span>', {
                                             "class": "txt",
@@ -63,7 +64,7 @@ and open the template in the editor.
                                         box.append($('<br>'));
                                         box.append($('<button>', {
                                             "class": "button",
-                                            //"onclick" : function(){demande(element.id);},
+                                            "style": "width:50%;margin: auto;",
                                             "text": "Joindre"
                                         })
                                                 .on("click", function () {
@@ -83,7 +84,11 @@ and open the template in the editor.
         </script>
     </head>
     <body>
-        <button id="disconnect-button">Disconnect</button>
+        <button id="disconnect-button" style="width:20%; margin-left: 70%">Disconnect</button>
+        <div style="text-align: center">
+            <a id="left">Accueil</a>
+            <a id="right" href="./stats.html">Statistiques</a>
+        </div>
         <section id="accueil">
 
         </section>

@@ -14,9 +14,8 @@ public class ActionFinirConv extends Action {
     public void execute(HttpServletRequest request) {
         Service service = new Service();
         Conversation c = service.getConversationParId(Long.parseLong(request.getParameter("idConv")));
-        System.out.println(c.toString());
         if(c == null)
             return;
-        service.finirConversation(c,request.getParameter("com"));
+        service.finirConversation(c,request.getParameter("commentaire"));
     }
 }
