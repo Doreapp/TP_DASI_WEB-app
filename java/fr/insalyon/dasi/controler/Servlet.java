@@ -123,6 +123,11 @@ public class Servlet extends HttpServlet {
                 new ActionStartConversation().execute(request);
                 new SerialisationStatus().serialise(request, response);
                 break;
+                
+            case "stats":
+                new ActionStats().execute(request);
+                new SerialisationStats().serialise(request, response);
+                break;
 
             default:
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST);
