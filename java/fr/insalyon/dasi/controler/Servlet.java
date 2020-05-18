@@ -134,6 +134,20 @@ public class Servlet extends HttpServlet {
                 new ActionGetHelp().execute(request);
                 new SerialisationPrediction().serialise(request, response);
                 break;
+                
+            case "getHelp":	
+                new ActionGetHelp().execute(request);	
+                new SerialisationPrediction().serialise(request, response);
+                break;
+
+            case "terminerConv":	            
+                new ActionFinirConv().execute(request);	              
+                break;	               
+
+            case "finirConv":	
+                new ActionFinirConv2().execute(request);	
+                new SerialisationConversation().serialise(request, response);	
+                break;
 
             default:
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST);
