@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Statistiques</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <link rel="stylesheet" href="stylesheet.css" />
+    </head>
+    <body>
+        <div id='left'></div>
+        <div id='right'></div>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $.ajax({
+                    url: './Servlet',
+                    method: 'POST',
+                    data: {
+                        todo: 'stats'
+                    },
+                    dataType: 'json'
+                })
+                        .done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                            $.each(response.mediums,
+                                function (index, element) {
+                                    var box = $('<div>', {
+                                        "class" : "medium-container"
+                                    });
+                                    box.append($('<span>', {
+                                        text : element.nom + " - " + element.type
+                                    }));
+                                    box.append($('<br/>'));
+                                    box.append($('<span>', {
+                                        text : "Nombre de consultation hebdomadaire : " + element.rang
+                                    }));
+                                    $('#left').append(box);
+                                });
+                                
+                            $.each(response.employes,
+                                function (index, element) {
+                                    var box = $('<div>', {
+                                        "class" : "medium-container"
+                                    });
+                                    box.append($('<span>', {
+                                        text : element.nom + " " + element.prenom
+                                    }));
+                                    box.append($('<br/>'));
+                                    box.append($('<span>', {
+                                        text : "Nb de client moyen : " + element.rang
+                                    }));
+                                    $('#right').append(box);
+                                });
+                        })
+                        .fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                            alert("Erreur lors de l'appel AJAX");
+                        })
+                        .always(function () { // Fonction toujours appelée
+
+                        });
+            });
+        </script>
+    </body>
+</html>
