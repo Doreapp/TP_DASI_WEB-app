@@ -16,7 +16,7 @@ public class ActionFinirConv2 extends Action {
         Conversation c = service.getConversationParId(Long.parseLong(request.getParameter("idConv")));
         if(c == null)
             return;
-        request.setAttribute("covnersation",c);
+        request.setAttribute("conversation",c);
     }
 
 }

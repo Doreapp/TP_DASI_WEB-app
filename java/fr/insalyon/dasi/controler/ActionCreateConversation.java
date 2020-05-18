@@ -22,7 +22,6 @@ public class ActionCreateConversation extends Action {
 
     @Override
     public void execute(HttpServletRequest request) {
-        System.out.println("crerr");
         HttpSession session = request.getSession(false);
         if (session == null) { //pas de session créée au préalable
             return;
@@ -42,10 +41,8 @@ public class ActionCreateConversation extends Action {
         if (medium == null) {
             return;
         }
-        System.out.println("crerr 2");
         Conversation c = service.creerConversation(cli, medium);
 
-        System.out.println("crerr 3 : "+c);
         request.setAttribute("status", 0);
     }
 

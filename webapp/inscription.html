@@ -5,6 +5,7 @@
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <link rel="stylesheet" href="stylesheet.css" />
         <script type="text/javascript">
             $(document).ready(function () {
                 $('#button').on('click', function () {
@@ -37,30 +38,22 @@
         </script>
     </head>
     <body>
-        <label for="nom">Nom :</label>
-        <input type="text" placeholder="nom" name="nom" id="nom"/>
-        <br/>
-        <label for="nom">Prénom :</label>
-        <input type="text" placeholder="prenom" name="prenom" id="prenom"/>
-        <br/>
-        <label for="nom">Date de naissance :</label>
-        <input type="date" name="date" id="date"/>
-        <br/>
-        <label for="nom">Numéro de téléphone :</label>
-        <input type="text" placeholder="numeroDeTelephone" name="numeroDeTelephone" id="numeroDeTelephone"/>
-        <br/>
-        <label for="nom">Adresse Postale :</label>
-        <input type="text" placeholder="adresse" name="adresse" id="adresse"/>
-        <br/>
-        <label for="nom">Email :</label>
-        <input type="text" placeholder="email" name="email" id="email"/>
-        <br/>
-        <label for="nom">Mot de passe</label>
-        <input type="password" placeholder="Mot de Passe" name="motDePasse" id="motDePasse" />
-        <br/>
-        <button id="button">S'inscrire</button>
-        <br/>
-        <a href="./connexion.html">J'ai déjà un compte</a>
+        <div class="white-container" style="width: 50%">
+            <h1>Inscription</h1>
+            <div class="colonne">
+                <input type="text" placeholder="Nom" name="nom" id="nom"/>
+                <input type="date" name="date" placeholder="Date de naissance" id="date"/>
+            </div>
+            <div class="colonne">
+                <input type="text" placeholder="Prenom" name="Prenom" id="prenom"/>
+                <input type="text" placeholder="N° de Telephone" name="numeroDeTelephone" id="numeroDeTelephone"/>
+            </div>
+            <input type="text" placeholder="Adresse postale" name="adresse" id="adresse"/>
+            <input type="text" placeholder="Email" name="email" id="email"/>
+            <input type="password" placeholder="Mot de Passe" name="motDePasse" id="motDePasse" />
+            <button id="button">S'inscrire</button>
+            <a href="./connexion.html" style="margin-top: 20px">J'ai déjà un compte</a>
+        </div>
 
     </body>
 </html>
