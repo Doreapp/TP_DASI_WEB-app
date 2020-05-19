@@ -17,5 +17,7 @@ public class ActionFinirConv extends Action {
         if(c == null)
             return;
         service.finirConversation(c,request.getParameter("commentaire"));
+        
+        request.setAttribute("status", 0);
     }
 }

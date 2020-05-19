@@ -59,59 +59,61 @@ and open the template in the editor.
         </script>
     </head>
     <body>
-        <section style="display:flex; justify-content: space-around; align-items: center; ">
-            <p id="connexion-id">
-                Nom : <strong id="client-name">NOMMM</strong>
+        <section class="top-bar">
+            <p id="client-data">
+                Nom : <strong id="client-name"></strong>
                 <br/>
-                Prenom : <strong id="client-firstname">PR2NOOOMMM</strong> 
+                Prenom : <strong id="client-firstname"></strong> 
             </p>
             <h1>PREDICT'IF</h1>
-            <button id="disconnect-button">Disconnect</button>
+            <button id="disconnect-button">Se deconnecter</button>
         </section>
 
-        <div id="navigation-bar">
-            <a class="navigation-button">Accueil</a>
-            <a class="navigation-button" href="./mediums.html">Médiums</a>
-            <a class="navigation-button" href="./historic.html">Historique</a>
-        </div>
+        <div class="text-centerer">
+            <div id="navigation-bar">
+                <a class="navigation-button">Accueil</a>
+                <a class="navigation-button" href="./mediums.html">Médiums</a>
+                <a class="navigation-button" href="./historic.html">Historique</a>
+            </div>
 
-        <div class="white-container" style="text-align: center">
-            <table>
-                <tr>
-                    <td>
-                        <img id="zodiaque-sign-img" width="60" height="60"/>
-                        <br/>
-                        Signe du zodiaque :
-                        <br />
-                        <strong id="zodiaque-sign-name">ZODIAQUE</strong>
+            <div class="white-container text-centerer medium" >
+                <table>
+                    <tr>
+                        <td>
+                            <img id="zodiaque-sign-img" width="60" height="60"/>
+                            <br/>
+                            Signe du zodiaque :
+                            <br />
+                            <strong id="zodiaque-sign-name">ZODIAQUE</strong>
 
-                    </td>
-                    <td>
-                        <img id="chinese-sign-img" width="60" height="60"/>
-                        <br/>
-                        Signe astrologique chinois :
-                        <br />
-                        <strong id="chinese-sign-name">CHINOIS</strong>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img id="lucky-color-img" width="60" height="60"/>
-                        <br/>
-                        Couleur porte bonheur :
-                        <br />
-                        <strong id="lucky-color-name">COULEUR</strong>
-                    </td>
-                    <td>
-                        <img id="totem-animal-img" width="60" height="60"/>
-                        <br/>
-                        Animal totem :
-                        <br />
-                        <strong id="totem-animal-name">ANIMAL</strong>
+                        </td>
+                        <td>
+                            <img id="chinese-sign-img" width="60" height="60"/>
+                            <br/>
+                            Signe astrologique chinois :
+                            <br />
+                            <strong id="chinese-sign-name">CHINOIS</strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img id="lucky-color-img" width="60" height="60"/>
+                            <br/>
+                            Couleur porte bonheur :
+                            <br />
+                            <strong id="lucky-color-name">COULEUR</strong>
+                        </td>
+                        <td>
+                            <img id="totem-animal-img" width="60" height="60"/>
+                            <br/>
+                            Animal totem :
+                            <br />
+                            <strong id="totem-animal-name">ANIMAL</strong>
 
-                    </td>
-                </tr>
-            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </body>
 </html>

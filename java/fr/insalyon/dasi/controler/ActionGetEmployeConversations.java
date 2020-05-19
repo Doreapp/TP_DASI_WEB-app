@@ -35,7 +35,6 @@ public class ActionGetEmployeConversations extends Action {
         List<Conversation> conversations
                 = service.rechercherConversationPourEmploye((Employe) user);
 
-        System.out.println("conversations ok");
         request.setAttribute("conversations", conversations);
 
     }

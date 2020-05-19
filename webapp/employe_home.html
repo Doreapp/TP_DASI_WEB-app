@@ -50,21 +50,23 @@ and open the template in the editor.
                                     function (index, element) {
                                         var box = $('<div>', {
                                             "class": "list-container",
-                                            "style": "width:80%;"
+                                            "style": "display: flex;"
                                         });
-                                        box.append($('<span>', {
+                                        var textBox = $('<div>', {
+                                            "class": "large-flex"
+                                        });
+                                        textBox.append($('<span>', {
                                             "class": "txt",
                                             text: "Consultation requise pour " + element.prenomClient + " " + element.nomClient
                                         }));
-                                        box.append($('<br>'));
-                                        box.append($('<span>', {
+                                        textBox.append($('<br>'));
+                                        textBox.append($('<span>', {
                                             "class": "medium",
                                             text: "Médium à incarner : " + element.medium
                                         }));
-                                        box.append($('<br>'));
+                                        box.append(textBox);
                                         box.append($('<button>', {
-                                            "class": "button",
-                                            "style": "width:50%;margin: auto;",
+                                            "class": "small-flex",
                                             "text": "Joindre"
                                         })
                                                 .on("click", function () {
@@ -84,11 +86,30 @@ and open the template in the editor.
         </script>
     </head>
     <body>
-        <button id="disconnect-button" style="width:20%; margin-left: 70%">Disconnect</button>
+        <section class="top-bar">
+            <p id="client-data">
+                <!--
+                Nom : <strong id="client-name"></strong>
+                <br/>
+                Prenom : <strong id="client-firstname"></strong> 
+                -->
+            </p>
+            <h1>PREDICT'IF</h1>
+            <button id="disconnect-button">Se deconnecter</button>
+        </section>
+
+        <div id="navigation-bar">
+            <a class="navigation-button">Accueil</a>
+            <a class="navigation-button" href="./stats.html">Statistiques</a>
+        </div>
+
+        <!--
         <div style="text-align: center">
             <a id="left">Accueil</a>
             <a id="right" href="./stats.html">Statistiques</a>
         </div>
+        -->
+
         <section id="accueil">
 
         </section>

@@ -11,25 +11,8 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <link rel="stylesheet" href="stylesheet.css" />
-    </head>
-    <body>
-        <div>
-            <strong id="client-name-top">CLIENT</strong>
-            demande
-            <strong id="medium-name-top">MEDIUM</strong>
-        </div>
-        <div class="white-container">
-            <span>
-                Medium incarné : <strong id="medium-name-top2">MEDIUM</strong>
-            </span>
-            <hr>
-            <span>Laissez un message sur cette conversation :</span>
-            <input type="text" id="com">
-            <br>
-            <button id="button">Finir la conversation</button>
-        </div>
         <script type="text/javascript">
-            $(document).ready( function() {
+            $(document).ready(function () {
                 var result = null,
                         tmp = [];
                 location.search
@@ -46,13 +29,13 @@ and open the template in the editor.
                 }
 
                 convId = result;
-                
+
                 $.ajax({
                     url: './Servlet',
                     method: 'POST',
                     data: {
-                        todo        : 'finirConv',
-                        idConv      : convId
+                        todo: 'finirConv',
+                        idConv: convId
                     },
                     dataType: 'json'
                 })
@@ -67,29 +50,47 @@ and open the template in the editor.
                         .always(function () { // Fonction toujours appelée
 
                         });
-                
-                $('#button').on('click',function(){
-                    $.ajax({
-                    url: './Servlet',
-                    method: 'POST',
-                    data: {
-                        todo        : 'terminerConv',
-                        idConv      : convId,
-                        commentaire : $("#com").val()
-                    },
-                    dataType: 'json'
-                })
-                        .done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
-                            document.location.href = "./employe_home.html";
-                        })
-                        .fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
-                            alert("Erreur lors de l'appel AJAX");
-                        })
-                        .always(function () { // Fonction toujours appelée
 
-                        });
+                $('#button').on('click', function () {
+                    $.ajax({
+                        url: './Servlet',
+                        method: 'POST',
+                        data: {
+                            todo: 'terminerConv',
+                            idConv: convId,
+                            commentaire: $("#com").val()
+                        },
+                        dataType: 'json'
+                    })
+                            .done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                                document.location.href = "./employe_home.html";
+                            })
+                            .fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                                alert("Erreur lors de l'appel AJAX");
+                            })
+                            .always(function () { // Fonction toujours appelée
+
+                            });
                 });
             });
         </script>
+    </head>
+    <body>
+        <div class="top-bar action-bar">
+            <span class="large-flex">
+                En connexion avec <strong id="client-name-top"></strong> en tant que <strong id="medium-name-top">MEDIUM</strong>
+            </span>
+        </div>
+        <div class="white-container">
+            <span>
+                Medium incarné : <strong id="medium-name-top2">MEDIUM</strong>
+            </span>
+            <hr>
+            <span>Laissez un message sur cette conversation :</span>
+            <input type="text" id="com" style="background:#e0e0e0">
+            <p class="text-centerer">
+                <button id="button" class="small">Finir la conversation</button>
+            </p>
+        </div>
     </body>
 </html>
