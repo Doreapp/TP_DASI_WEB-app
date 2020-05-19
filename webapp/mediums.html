@@ -59,7 +59,7 @@
                     dataType: 'json'
                 })
                         .done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
-                            alert("Conversation créée");
+                            alert("Votre demande à bien étée prise en compte.\nVeuillez attendre l'appel du/(de la) médium.");
                         })
                         .fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
                             alert("Erreur lors de l'appel AJAX");
@@ -86,19 +86,23 @@
                             $.each(response.mediums,
                                     function (index, element) {
                                         var box = $('<div>', {
-                                            "class": "list-container"
+                                            "class": "list-container flexbox",
                                         });
-                                        box.append($('<span>', {
+                                        var textBox = $('<div>', {
+                                            "class": "large-flex"
+                                        });
+                                        textBox.append($('<strong>', {
                                             "class": "medium-name",
                                             text: element.nom,
                                         }));
-                                        box.append($('<br/>'));
-                                        box.append($('<span>', {
+                                        textBox.append($('<br/>'));
+                                        textBox.append($('<span>', {
                                             "class": "medium-description",
                                             text: element.presentation,
                                         }));
+                                        box.append(textBox);
                                         box.append($('<button>', {
-                                            "class": "button",
+                                            "class": "small-flex",
                                             "text": "Joindre"
                                         })
                                                 .on("click", function () {
@@ -118,14 +122,14 @@
         </script>            
     </head>
     <body>
-        <section style="display:flex; justify-content: space-around; align-items: center; ">
-            <p id="connexion-id">
-                Nom : <strong id="client-name">NOMMM</strong>
+        <section class="top-bar">
+            <p id="client-data">
+                Nom : <strong id="client-name"></strong>
                 <br/>
-                Prenom : <strong id="client-firstname">PR2NOOOMMM</strong> 
+                Prenom : <strong id="client-firstname"></strong> 
             </p>
             <h1>PREDICT'IF</h1>
-            <button id="disconnect-button">Disconnect</button>
+            <button id="disconnect-button">Se déconnecter</button>
         </section>
 
         <div id="navigation-bar">

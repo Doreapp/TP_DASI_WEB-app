@@ -5,10 +5,7 @@ package fr.insalyon.dasi.controler;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import fr.insalyon.dasi.view.JsonSerialisation;
 import fr.insalyon.dasi.dao.JpaUtil;
-import fr.insalyon.dasi.metier.modele.*;
-import fr.insalyon.dasi.metier.service.Service;
 import fr.insalyon.dasi.view.*;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -16,9 +13,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  *
@@ -136,7 +130,8 @@ public class Servlet extends HttpServlet {
                 break;
 
             case "terminerConv":	            
-                new ActionFinirConv().execute(request);	              
+                new ActionFinirConv().execute(request);	   
+                new SerialisationStatus().serialise(request, response);           
                 break;	               
 
             case "finirConv":	

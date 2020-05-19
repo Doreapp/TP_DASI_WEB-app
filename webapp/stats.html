@@ -12,7 +12,24 @@ and open the template in the editor.
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <link rel="stylesheet" href="stylesheet.css" />
         <script type="text/javascript">
+            function disconnect() {
+                console.log("disconnect");
+                $.ajax({
+                    url: './Servlet',
+                    method: 'GET',
+                    data: {
+                        todo: 'disconnect'
+                    },
+                    dataType: 'json'
+                })
+                        .always(function () { // Fonction toujours appelée
+                            document.location.href = "./home.html";
+                        });
+            }
+
             $(document).ready(function () {
+                $('#disconnect-button').click(disconnect);
+
                 $.ajax({
                     url: './Servlet',
                     method: 'POST',
@@ -23,34 +40,37 @@ and open the template in the editor.
                 })
                         .done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
                             $.each(response.mediums,
-                                function (index, element) {
-                                    var box = $('<div>', {
-                                        "class" : "medium-container"
+                                    function (index, element) {
+                                        var box = $('<p>', {
+                                            "class": "medium-container"
+                                        });
+                                        box.append($('<strong>', {
+                                            text: element.nom
+                                        }));
+                                        box.append($('<span>', {
+                                            text: " - " + element.type
+                                        }));
+                                        box.append($('<br/>'));
+                                        box.append($('<span>', {
+                                            text: "Nombre de consultation hebdomadaire : " + element.rang
+                                        }));
+                                        $('#left').append(box);
                                     });
-                                    box.append($('<span>', {
-                                        text : element.nom + " - " + element.type
-                                    }));
-                                    box.append($('<br/>'));
-                                    box.append($('<span>', {
-                                        text : "Nombre de consultation hebdomadaire : " + element.rang
-                                    }));
-                                    $('#left').append(box);
-                                });
-                                
+
                             $.each(response.employes,
-                                function (index, element) {
-                                    var box = $('<div>', {
-                                        "class" : "medium-container"
+                                    function (index, element) {
+                                        var box = $('<p>', {
+                                            "class": "medium-container"
+                                        });
+                                        box.append($('<strong>', {
+                                            text: element.nom + " " + element.prenom
+                                        }));
+                                        box.append($('<br/>'));
+                                        box.append($('<span>', {
+                                            text: "Nb de client moyen : " + element.rang
+                                        }));
+                                        $('#right').append(box);
                                     });
-                                    box.append($('<span>', {
-                                        text : element.nom + " " + element.prenom
-                                    }));
-                                    box.append($('<br/>'));
-                                    box.append($('<span>', {
-                                        text : "Nb de client moyen : " + element.rang
-                                    }));
-                                    $('#right').append(box);
-                                });
                         })
                         .fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
                             alert("Erreur lors de l'appel AJAX");
@@ -62,11 +82,26 @@ and open the template in the editor.
         </script>
     </head>
     <body>
-        <div>
-            <a href="./employe_home.html">Accueil</a>
-            <a>Statistiques</a>
+        <section class="top-bar">
+            <p id="client-data">
+                <!--
+                Nom : <strong id="client-name"></strong>
+                <br/>
+                Prenom : <strong id="client-firstname"></strong> 
+                -->
+            </p>
+            <h1>PREDICT'IF</h1>
+            <button id="disconnect-button">Se deconnecter</button>
+        </section>
+
+        <div id="navigation-bar">
+            <a class="navigation-button" href="./employe_home.html">Accueil</a>
+            <a class="navigation-button">Statistiques</a>
         </div>
-        <div id='left'></div>
-        <div id='right'></div>
+
+        <div class="white-container flexbox">
+            <div id="left" class="small-flex"></div>
+            <div id="right" class="small-flex"></div>
+        </div>
     </body>
 </html>

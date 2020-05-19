@@ -26,9 +26,10 @@ and open the template in the editor.
                             $.each(response.mediums,
                                     function (index, element) {
                                         var box = $('<div>', {
-                                            "class": "medium-container"
+                                            "class": "white-container small",
+                                            "width": "60%"
                                         });
-                                        box.append($('<span>', {
+                                        box.append($('<strong>', {
                                             "class": "medium-name",
                                             text: element.nom,
                                         }));
@@ -38,6 +39,7 @@ and open the template in the editor.
                                             text: element.presentation,
                                         }));
                                         section.append(box);
+                                        section.append($('<br/>'));
                                     });
                         })
                         .fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
@@ -50,11 +52,11 @@ and open the template in the editor.
 
             $(document).ready(function () {
                 showMediums();
-                
+
                 $('#button-connect').click(function () {
                     document.location.href = "./connexion.html";
                 });
-                
+
                 $('#button-signin').click(function () {
                     document.location.href = "./inscription.html";
                 })
@@ -62,10 +64,21 @@ and open the template in the editor.
         </script>
     </head>
     <body>
+        <section class="top-bar">
+            <h1>PREDICT'IF</h1>
+        </section>
+        <p id="presentation-site">
+            Laissez nos médiums vous aider<br/>contre les aléas de la vie
+        </p>
 
-        <button id="button-connect">Se connecter</button>
-        <button id="button-signin">S'inscrire</button>
-
+        <p class="text-centerer flexbox">
+            <span class="small-flex"></span>
+            <button id="button-connect" class="small large-flex">Se connecter</button>
+            <span class="small-flex"></span>
+            <button id="button-signin" class="small large-flex">S'inscrire</button>
+            <span class="small-flex"></span>
+        </p>
+        <br/>
         <section id="mediums-list">
         </section> 
 

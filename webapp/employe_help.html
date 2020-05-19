@@ -92,7 +92,7 @@ and open the template in the editor.
 
 
             function closeHelp() {
-                document.location.href = "./employe_call.html?idConv="+convId;
+                document.location.href = "./employe_call.html?idConv=" + convId;
             }
 
 
@@ -104,28 +104,28 @@ and open the template in the editor.
         </script>
     </head>
     <body>
-        <div>
-            En connexion avec
-            <strong id="client-name-top">CLIENT</strong>
-            en tant que
-            <strong id="medium-name-top">MEDIUM</strong>
-            <button id="button-end">Retour</button>
+        <div  class="top-bar action-bar">
+            <span class="large-flex">
+                En connexion avec <strong id="client-name-top"></strong> en tant que <strong id="medium-name-top">MEDIUM</strong>
+            </span>
+            <button id="button-end"  class="small-flex">Retour</button>
         </div>
         <div class="white-container">
             Veuillez remplir les niveaux d'échelle du bonheur :
 
-            <br/>
-            Amour :
-            <input type="range" min="1" max="4" value="2" id="love-range">
-            <br/>
-            Santé :
-            <input type="range" min="1" max="4" value="2" id="health-range">
-            <br/>
-            Travail :
-            <input type="range" min="1" max="4" value="2" id="work-range">
-            <br/>
+            <p class="text-centerer">
+                Amour :
+                <input type="range" min="1" max="4" value="2" id="love-range">
+                <br/>
+                Santé :
+                <input type="range" min="1" max="4" value="2" id="health-range">
+                <br/>
+                Travail :
+                <input type="range" min="1" max="4" value="2" id="work-range">
+                <br/>
 
-            <button id="button-generate">Générer les prédictions</button>
+                <button id="button-generate" class="small">Générer les prédictions</button>
+            </p>
             <hr/>
 
             <strong>Amour :</strong>

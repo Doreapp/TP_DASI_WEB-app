@@ -52,6 +52,27 @@ and open the template in the editor.
                         });
             }
 
+            function demande(id) {
+                $.ajax({
+                    url: './Servlet',
+                    method: 'POST',
+                    data: {
+                        todo: 'createConversation',
+                        id: id
+                    },
+                    dataType: 'json'
+                })
+                        .done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                            alert("Votre demande à bien étée prise en compte.\nVeuillez attendre l'appel du/(de la) médium.");
+                        })
+                        .fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                            alert("Erreur lors de l'appel AJAX");
+                        })
+                        .always(function () { // Fonction toujours appelée
+
+                        });
+            }
+
             $(document).ready(function () {
                 loadData();
                 $('#disconnect-button').click(disconnect);
@@ -68,17 +89,68 @@ and open the template in the editor.
                             var section = $('#historique');
                             $.each(response.conversations,
                                     function (index, element) {
+                                        /*
+                                         * var section = $('#mediums-list');
+                                         $.each(response.mediums,
+                                         function (index, element) {
+                                         var box = $('<div>', {
+                                         "class": "list-container",
+                                         "style": "display: flex;"
+                                         });
+                                         var textBox = $('<div>', {
+                                         "class": "large-flex"
+                                         });
+                                         textBox.append($('<strong>', {
+                                         "class": "medium-name",
+                                         text: element.nom,
+                                         }));
+                                         textBox.append($('<br/>'));
+                                         textBox.append($('<span>', {
+                                         "class": "medium-description",
+                                         text: element.presentation,
+                                         }));
+                                         box.append(textBox);
+                                         box.append($('<button>', {
+                                         "class": "small-flex",
+                                         "text": "Joindre"
+                                         })
+                                         .on("click", function () {
+                                         demande(element.id);
+                                         })
+                                         );
+                                         section.append(box);
+                                         });
+                                         */
                                         var box = $('<div>', {
-                                            "class": "list-container"
+                                            "class": "list-container flexbox"
                                         });
-                                        box.append($('<span>', {
+                                        var textBox = $('<div>', {
+                                            "class": "large-flex"
+                                        });
+                                        var days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+                                        var month = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'aout', 'septembre', 'octobre', 'novembre', 'décembre'];
+                                        var mDate = new Date(element.date);
+                                        textBox.append($('<strong>', {
                                             "class": "date-conversation",
-                                            text: element.date,
+                                            text: "Le " + days[mDate.getDay()] + " " + mDate.getDate() + " " + month[mDate.getMonth()] + " " + (mDate.getYear() + 1900),
                                         }));
-                                        box.append($('<span>', {
+                                        textBox.append($('<br>'));
+                                        textBox.append($('<span>', {
+                                            text: "Consultation avec ",
+                                        }));
+                                        textBox.append($('<strong>', {
                                             "class": "medium",
                                             text: element.medium,
                                         }));
+                                        box.append(textBox);
+                                        box.append($('<button>', {
+                                            "class": "small-flex",
+                                            "text": "Joindre"
+                                        })
+                                                .on("click", function () {
+                                                    demande(element.id);
+                                                })
+                                                );
                                         section.append(box);
                                     });
                         })
@@ -92,14 +164,14 @@ and open the template in the editor.
         </script>
     </head>
     <body>
-        <section style="display:flex; justify-content: space-around; align-items: center; ">
-            <p id="connexion-id">
-                Nom : <strong id="client-name">NOMMM</strong>
+        <section class="top-bar">
+            <p id="client-data">
+                Nom : <strong id="client-name"></strong>
                 <br/>
-                Prenom : <strong id="client-firstname">PR2NOOOMMM</strong> 
+                Prenom : <strong id="client-firstname"></strong> 
             </p>
             <h1>PREDICT'IF</h1>
-            <button id="disconnect-button">Disconnect</button>
+            <button id="disconnect-button">Se déconnecter</button>
         </section>
 
         <div id="navigation-bar">
